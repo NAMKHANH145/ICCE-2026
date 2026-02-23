@@ -1,0 +1,156 @@
+================================================================================
+PLAN FOR CONFERENCE PAPER: OPTIMIZING PPG POWER CONSUMPTION VIA SWEET SPOT ANALYSIS
+Topic: Adaptive AGC Strategy for MAX30102 based on Power Efficiency Index
+================================================================================
+
+1. THÔNG TIN CHUNG (PROJECT OVERVIEW)
+------------------------------------
+- Mục tiêu: Chứng minh sự tồn tại của "Sweet Spot" (điểm ngọt) về dòng điện LED và xây dựng thuật toán AGC tối ưu hóa năng lượng/chất lượng.
+- Đối tượng: Cảm biến MAX30102 kết hợp module đo dòng INA219.
+- Chỉ số then chốt: Efficiency Index (SNR_linear / Power_mW).
+
+2. THIẾT KẾ THÍ NGHIỆM (EXPERIMENTAL DESIGN)
+--------------------------------------------
+A. Nhóm biến độc lập (Independent Variables):
+   - Mức dòng LED (LED_PA): 0x0F(3mA), 0x1F(6mA), 0x24(7mA), 0x32(10mA), 0x4B(15mA), 0x64(20mA), 0x7F(25mA), 0x96(30mA), 0xC8(40mA), 0xFF(51mA).
+B. Nhóm biến phụ thuộc (Dependent Variables):
+   - SNR (dB), Perfusion Index (PI %), SpO2 Error/Stability, Power Consumption (mW).
+C. Điều kiện thử nghiệm:
+   - Đo trên ít nhất 5 đối tượng (khác nhau về sắc tố da và kích thước ngón tay).
+   - Mỗi mẫu đo kéo dài 60 giây (bỏ qua 10 giây đầu nhiễu).
+   - Môi trường: Ánh sáng phòng ổn định.( thêm)
+
+3. QUY TRÌNH LẤY MẪU (SAMPLING WORKFLOW)
+----------------------------------------
+Bước 1: Khởi động hệ thống (ESP32 + MAX30102 + INA219).
+Bước 2: Chỉnh sửa firmware 'main.c' với mức LED_PA mong muốn.
+Bước 3: Thực hiện đo, chạy 'logger.py' để lưu file (VD: data_7mA_subj1.csv).
+Bước 4: Sử dụng 'analysis_ppg.py' để trích xuất các thông số:
+        - SNR (Standardized dB)
+        - PI (%)
+        - Avg Power (mW)
+        - Efficiency Index (dB/mW)
+Bước 5: Lặp lại cho tất cả 10 mức dòng và 5 đối tượng.
+
+4. CẤU TRÚC BÀI BÁO (PAPER STRUCTURE - 6 PAGES)
+-----------------------------------------------
+Trang 1: Abstract & Introduction.
+         - Tầm quan trọng của tiết kiệm năng lượng trong thiết bị Wearable.
+         - Vấn đề của AGC truyền thống (thường chỉ quan tâm đến biên độ, bỏ qua năng lượng).
+
+Trang 2: Hardware Architecture & Signal Processing.
+         - Sơ đồ kết nối ESP32 - INA219 - MAX30102.
+         - Kỹ thuật lọc nhiễu: Hardware Averaging trên INA219 và Butterworth Bandpass.
+
+Trang 3: Proposed Methodology: The Efficiency Index.
+         - Định nghĩa toán học về Sweet Spot.
+         - Công thức tính SNR phổ tần và Power Efficiency.
+
+Trang 4: Results & Discussion (Phần quan trọng nhất).
+         - Đồ thị 1: SNR vs LED Current (Chứng minh quy luật bão hòa).
+         - Đồ thị 2: Efficiency Index vs LED Current (Chứng minh sự tồn tại của đỉnh tối ưu).
+         - Phân tích ảnh hưởng của sắc tố da đến vị trí Sweet Spot.
+
+Trang 5: Adaptive AGC Implementation.
+         - Đề xuất thuật toán AGC mới: Điều khiển dòng hướng tới vùng Efficiency Max.
+         - So sánh năng lượng tiêu thụ giữa dòng cố định (Default) và dòng tối ưu (AGC).
+
+Trang 6: Conclusion & References.
+         - Tóm tắt kết quả: Tiết kiệm bao nhiêu % năng lượng? SNR có được đảm bảo?
+
+5. DANH SÁCH CÁC BIỂU ĐỒ CẦN VẼ (FIGURES LIST)
+----------------------------------------------
+- Fig 1: Block diagram của hệ thống đo kiểm.
+- Fig 2: Sóng PPG thô và sóng sau lọc (so sánh SNR).
+- Fig 3: Đồ thị PSD (Power Spectral Density) tại mức dòng thấp vs mức dòng Sweet Spot.
+- Fig 4: Biểu đồ chính (Main Result): Trục kép SNR và Power theo dòng điện LED.
+- Fig 5: Biểu đồ cột so sánh Efficiency Index giữa các mức dòng.
+
+6. CÁC NHẬN ĐỊNH CẦN NHẤN MẠNH (KEY ARGUMENTS)
+----------------------------------------------
+- "More power does not mean better medical data": Chứng minh SNR không tăng tuyến tính với dòng điện.
+- "The 7.2mA - 15mA Sweet Spot": Chỉ ra dải hoạt động lý tưởng cho các ứng dụng wearable dân dụng.
+- "INA219 Hardware Averaging is crucial": Nhấn mạnh việc đo dòng thực tế thay vì tính toán lý thuyết.
+
+7. NGHIÊN CỨU LIÊN QUAN & TỪ KHÓA (RELATED WORK)
+-----------------------------------------------
+- Từ khóa: PPG Signal Quality, Power Optimization, Adaptive AGC, SNR/mW Index.
+- Related Work 1: Signal Quality Index (SQI) - Sử dụng Kurtosis/Skewness (Tham khảo: M. Elgendi).
+- Related Work 2: Energy Efficient Wearables - Tối ưu hóa duty cycle và sample rate.
+- Research Gap: Các AGC hiện nay chỉ tập trung vào việc chống bão hòa (Saturation Prevention), chưa tối ưu hóa hiệu suất năng lượng (Efficiency Index).
+- Skin Tone Analysis: Fitzpatrick scale ảnh hưởng đến việc dịch chuyển Sweet Spot.
+
+================================================================================
+FINISH.
+================================================================================
+---
+
+## 1. Từ khóa tra cứu (Keywords Strategy)
+
+Bạn nên chia từ khóa thành 3 nhóm chính và kết hợp chúng bằng các toán tử (`AND`, `OR`) trên các cơ sở dữ liệu như **IEEE Xplore, PubMed, MDPI, hay Google Scholar**:
+
+* **Nhóm 1 (Kỹ thuật PPG):** `Photoplethysmogram (PPG)`, `MAX30102`, `Signal Quality Index (SQI)`, `PPG SNR calculation`.
+* **Nhóm 2 (Năng lượng):** `Power optimization`, `Low-power wearable devices`, `Energy efficiency in bio-sensors`, `Current consumption modeling`.
+* **Nhóm 3 (Thuật toán điều khiển):** `Adaptive AGC`, `LED current control algorithm`, `Automatic gain control bio-signals`, `Feedback control PPG`.
+
+**Ví dụ chuỗi tìm kiếm hiệu quả:** > *(PPG OR Photoplethysmogram) AND "Power optimization" AND (SNR OR "Signal quality") AND "Adaptive AGC"*
+
+---
+
+## 2. Số lượng và Phân bổ nghiên cứu
+
+Đối với một bài báo hội nghị (Conference Paper) dài 6 trang, bạn nên trích dẫn khoảng **15 - 20 tài liệu tham khảo**. Để chọn được số lượng này, bạn cần đọc lướt qua khoảng **30 - 40 bài**.
+
+**Phân bổ gợi ý:**
+
+* **3-5 bài kinh điển:** Về nguyên lý PPG và cấu trúc cảm biến (như các tài liệu của Maxim Integrated hoặc các bài báo nền tảng về PPG của **M. Elgendi**).
+* **5-7 bài về Signal Quality:** Các phương pháp tính SQI, Kurtosis, Skewness để bạn có cơ sở so sánh với phương pháp tính SNR của mình.
+* **5-7 bài về tối ưu năng lượng:** Các nghiên cứu gần đây (2021-2026) về thiết bị đeo để tìm ra **Research Gap** (Hầu hết họ chỉ tối ưu Duty Cycle, ít người tối ưu dòng LED dựa trên PEI).
+
+---
+
+## 3. Các hướng nghiên cứu cần tập trung (Research Directions)
+
+Để bài báo có sức nặng, bạn nên tra cứu theo 4 "trụ cột" sau:
+
+### Hướng A: Signal Quality Assessment (Thước đo chất lượng)
+
+Tra cứu cách các tác giả khác định nghĩa "tín hiệu tốt".
+
+* *Trọng tâm:* Ngoài SNR, họ dùng gì? (Template matching, Kurtosis, Skewness, hay Entropy?).
+* *Mục tiêu:* Chứng minh phương pháp tính SNR/mW của bạn khách quan hơn việc chỉ nhìn vào biên độ sóng.
+
+### Hướng B: Adaptive LED Control (Điều khiển LED thích nghi)
+
+Đây là đối thủ cạnh tranh trực tiếp với thuật toán của bạn.
+
+* *Trọng tâm:* Các thuật toán AGC hiện có trên MAX30102 thường chỉ dựa vào việc giữ cho đỉnh sóng không chạm ngưỡng bão hòa (Saturation).
+* *Mục tiêu:* Tìm ra điểm yếu của chúng (thường gây lãng phí năng lượng khi dòng LED quá cao mà SNR không tăng thêm).
+
+### Hướng C: Skin Tone & Physiological Factors (Yếu tố người dùng)
+
+Bạn đã nhắc đến **Fitzpatrick scale**, đây là điểm cộng lớn.
+
+* *Trọng tâm:* Tra cứu "Impact of skin pigmentation on PPG LED penetration".
+* *Mục tiêu:* Có số liệu lý thuyết để giải thích tại sao "Sweet Spot" của người da trắng lại khác người da màu (ví dụ: da tối màu cần dòng LED cao hơn để đạt cùng một mức SNR).
+
+### Hướng D: Hardware-in-the-loop Power Monitoring
+
+* *Trọng tâm:* Các nghiên cứu sử dụng **INA219** hoặc các IC đo dòng tương tự để kiểm chứng năng lượng thực tế.
+* *Mục tiêu:* Khẳng định rằng bạn không chỉ giả định trên lý thuyết mà có phép đo vật lý (Physical measurement) tin cậy.
+
+---
+
+## 4. Gợi ý các nguồn tài liệu "Vàng"
+
+1. **M. Elgendi:** Tác giả này có rất nhiều bài tổng quan (Review) về SQI cho PPG. Đây là nguồn để bạn dẫn chứng về Kurtosis/Skewness.
+2. **IEEE Sensors Journal / IEEE Transactions on Biomedical Circuits and Systems:** Tìm các bài báo về "Low-power PPG readout".
+3. **Application Notes của Maxim (Analog Devices):** Đọc kỹ tài liệu về MAX30102 để hiểu các thuật toán AGC mặc định của họ, từ đó chỉ ra điểm tối ưu thêm của bạn.
+
+---
+
+## 5. Mẹo nhỏ để "Research Gap" nổi bật
+
+Trong phần Related Work, bạn hãy viết theo kiểu:
+
+> *"Mặc dù tác giả A đã tối ưu tần số lấy mẫu [1], và tác giả B đã phát triển thuật toán chống bão hòa [2], nhưng hiện nay chưa có nghiên cứu nào tập trung vào việc tìm kiếm điểm cân bằng động giữa SNR và công suất tiêu thụ thực tế thông qua chỉ số Efficiency Index trên dòng cảm biến tích hợp như MAX30102."*

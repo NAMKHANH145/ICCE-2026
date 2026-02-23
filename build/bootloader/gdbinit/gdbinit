@@ -1,0 +1,2 @@
+source C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader/gdbinit/symbols
+source C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader/gdbinit/connect

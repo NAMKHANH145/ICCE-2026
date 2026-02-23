@@ -1,0 +1,18 @@
+[1/10] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\MyEspProjects\ICCE2026_ESP32D\build\bootloader\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6570 bytes. 0xa90 bytes (9%) free.
+[2/10] No install step for 'bootloader'
+[3/10] Completed 'bootloader'
+[4/10] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+[5/10] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/max30102_custom.c.obj
+[6/10] Linking C static library esp-idf\main\libmain.a
+[7/10] Generating ld/sections.ld
+[8/10] Linking CXX executable ICCE2026_ESP32D.elf
+[9/10] Generating binary image from built executable
+esptool.py v4.10.0
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated C:/MyEspProjects/ICCE2026_ESP32D/build/ICCE2026_ESP32D.bin
+[10/10] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\MyEspProjects\ICCE2026_ESP32D\build\esp-idf\esptool_py && C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.4.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/MyEspProjects/ICCE2026_ESP32D/build/partition_table/partition-table.bin C:/MyEspProjects/ICCE2026_ESP32D/build/ICCE2026_ESP32D.bin"
+ICCE2026_ESP32D.bin binary size 0x31990 bytes. Smallest app partition is 0x100000 bytes. 0xce670 bytes (81%) free.

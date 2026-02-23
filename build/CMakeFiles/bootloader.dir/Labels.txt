@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+C:/MyEspProjects/ICCE2026_ESP32D/build/CMakeFiles/bootloader
+C:/MyEspProjects/ICCE2026_ESP32D/build/CMakeFiles/bootloader.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/CMakeFiles/bootloader-complete.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/MyEspProjects/ICCE2026_ESP32D/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
